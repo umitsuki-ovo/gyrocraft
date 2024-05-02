@@ -15,3 +15,9 @@ for process in processes:
     except (psutil.NoSuchProcess, psutil.AccessDenied, psutil.ZombieProcess):
         # プロセスがすでに終了している、アクセスが拒否されている、またはZombieプロセスの場合、処理を続行する
         continue
+
+"""memo
+pid = subprocess.Popen('pidof bedrock_server', shell = True, stdout = subprocess.PIPE, stderr = subprocess.STDOUT)
+subprocess.Popen(f'kill -9 {pid}', shell = True, stdout = subprocess.PIPE, stderr = subprocess.STDOUT)
+
+"""
