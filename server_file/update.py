@@ -3,20 +3,19 @@ import zipfile
 import os
 import requests
 import shutil
-import urllib.request
-from requests.exceptions import Timeout
+import urllib
 from backup import server_kill
 
-version_text = "../temp/version.text"
+version_text = "../temp/version.txt"
 extract_to_dir = "../temp/update/bedrock_server"
-server_path = "./bedrock_server"
+server_path = "./"
 url = ""
 filepath = ""
 
 def get_content():
     try:
         response = requests.get("https://minecraft.net/en-us/download/server/bedrock/", headers={"User-Agent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/14.0.3 Safari/605.1.15"}, verify=False, timeout=60)
-        content = response.text
+        content = response.txt
         return content
     except Timeout:
         print("タイムアウトしました。")
@@ -36,14 +35,14 @@ def extract_zip(zip_file_path):
     with zipfile.ZipFile(zip_file_path, 'r') as zip_ref:
         zip_ref.extractall(extract_to_dir)
 
-def update(path):
-    filepath = f"../temp/update/{path}"
-    file_url = f"https://minecraft.azureedge.net/bin-linux/{path}"
+def update(url):
+    version = url.split("/")[-1].split(".")[0]
+    filepath = f"../temp/update/{version}"
     copy_path = f"../temp/update/"
-    copy_file = "./bedrock_server/server.properties"
-    urllib.request.urlretrieve(file_url, path)
+    copy_file = "./server.properties"
+    urllib.request.urlretrieve(url, filepath)
     server_kill("bedrock_server")
-    extract_zip(file_url)
+    extract_zip(filepath)
     shutil.copy(copy_file, copy_path)
     shutil.copy(extract_to_dir, server_path)
     shutil.copy(f"{copy_path}/server.properties", server_path)
