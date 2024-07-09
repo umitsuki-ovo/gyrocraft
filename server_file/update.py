@@ -35,6 +35,16 @@ def extract_zip(zip_file_path):
     with zipfile.ZipFile(zip_file_path, 'r') as zip_ref:
         zip_ref.extractall(extract_to_dir)
 
+def copy(ext_dir,copy_dir)
+    files = os.listdir(ext_dir)
+    for file in files:
+        ext_path = os.path.join(ext_dir, file)
+        copy_path = os.path.join(copy_dir, file)
+        if os.path.isfile(ext_path):
+            shutil.copy(ext_path, copy_path)
+        elif os.path.isdir(ext_path):
+            shutil.copytree(ext_path, copy_path)
+
 def update(url):
     version = url.split("/")[-1].split(".")[0]
     filepath = f"../temp/update/{version}"
@@ -44,7 +54,7 @@ def update(url):
     server_kill("bedrock_server")
     extract_zip(filepath)
     shutil.copy(copy_file, copy_path)
-    shutil.copy(extract_to_dir, server_path)
+    copy(extract_to_dir, server_path)
     shutil.copy(f"{copy_path}/server.properties", server_path)
 
 
