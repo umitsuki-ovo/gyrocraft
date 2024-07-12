@@ -4,7 +4,7 @@ import os
 import requests
 import shutil
 import urllib
-from backup import server_kill
+import subprocess
 
 version_text = "../temp/version.txt"
 extract_to_dir = "../temp/update/bedrock_server"
@@ -20,6 +20,10 @@ def get_content():
     except Timeout:
         print("タイムアウトしました。")
         pass
+
+def server_kill(process_name):
+    pid = subprocess.getoutput(f'pidof {process_name}')
+    subprocess.Popen(f'kill -9 {pid}', shell = True, stdout = subprocess.PIPE, stderr = subprocess.STDOUT)
 
 def check_version(version):
     with open(version_text, "r") as version_histry:
