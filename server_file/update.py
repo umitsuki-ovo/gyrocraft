@@ -24,6 +24,7 @@ def get_content():
 def server_kill(process_name):
     pid = subprocess.getoutput(f'pidof {process_name}')
     subprocess.Popen(f'kill -9 {pid}', shell = True, stdout = subprocess.PIPE, stderr = subprocess.STDOUT)
+    os.chdir(os.path.join(os.path.dirname(os.path.abspath(__file__)), '..'))
 
 def check_version(version):
     with open(version_text, "r") as version_histry:
@@ -56,7 +57,6 @@ def update(url):
     copy_file = "./bedrock_server/server.properties"
     copy_file2 = "./bedrock_server/main.py"
     urllib.request.urlretrieve(url, filepath)
-    server_kill("bedrock_server")
     extract_zip(filepath)
     shutil.copy(copy_file, copy_path)
     shutil.copy(copy_file2, copy_path)
@@ -64,21 +64,24 @@ def update(url):
     shutil.copy(f"{copy_path}/server.properties", server_path)
     shutil.copy(f"{copy_path}/main.py", server_path)
 
-
-html = get_content()
-if html is not None:
-    match = re.search(r'<a href="(.*\.zip).*?">', html)
-    if match:
-        url = match.group(1)
-        print(url)
+def main():
+    server_kill("bedrock_server")
+    html = get_content()
+        if html is not None:
+            match = re.search(r'<a href="(.*\.zip).*?">', html)
+        if match:
+            url = match.group(1)
+            print(url)
+        else:
+            print("ZIPファイルのリンクが見つかりませんでした。")
     else:
-        print("ZIPファイルのリンクが見つかりませんでした。")
-else:
-    print("アップデートに失敗しました。")
+        print("アップデートに失敗しました。")
 
-do_update = check_version(url)
-if do_update == 1:
-    update(url)
-    with open(version_text, "a") as version_histry:
-        version_histry.write(url + "\n")
-        print("アップデートが完了しました。")
+    do_update = check_version(url)
+    if do_update == 1:
+        update(url)
+        with open(version_text, "a") as version_histry:
+            version_histry.write(url + "\n")
+            print("アップデートが完了しました。")
+
+main()
