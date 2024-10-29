@@ -6,6 +6,7 @@ import os
 def server_kill(process_name):
     pid = subprocess.getoutput(f'pidof {process_name}')
     subprocess.Popen(f'kill -9 {pid}', shell = True, stdout = subprocess.PIPE, stderr = subprocess.STDOUT)
+    os.chdir(os.path.join(os.path.dirname(os.path.abspath(__file__)), '..'))
     backup_log(pid)
 
 def backup_log(terminal):
