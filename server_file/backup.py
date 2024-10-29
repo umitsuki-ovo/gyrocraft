@@ -9,7 +9,7 @@ def server_kill(process_name):
     backup_log(pid)
 
 def backup_log(terminal):
-    logfile = '../temp/backuplog'
+    logfile = './temp/backuplog'
     now = datetime.datetime.now()
     text = f"{now}:   {terminal}killed.\n"
 
@@ -19,8 +19,8 @@ def backup_log(terminal):
 def backup():
     server_kill('bedrock_server')
     now_time = datetime.datetime.now()
-    shutil.copytree('./bedrockserver/', f'../temp/{now_time.month}/{now_time}', dirs_exist_ok = True)
-    if os.path.isdir(f'../temp/{now_time.month + 7}') == True:
-        shutil.rmtree(f'../temp/{now_time.month + 7}')
+    shutil.copytree('./bedrockserver/', f'./temp/{now_time.month}/{now_time}', dirs_exist_ok = True)
+    if os.path.isdir(f'./temp/{now_time.month + 7}') == True:
+        shutil.rmtree(f'./temp/{now_time.month + 7}')
 
 backup()
