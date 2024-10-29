@@ -6,9 +6,9 @@ import shutil
 import urllib
 import subprocess
 
-version_text = "../temp/version.txt"
-extract_to_dir = "../temp/update/bedrock_server"
-server_path = "./"
+version_text = "./temp/version.txt"
+extract_to_dir = "./temp/update/bedrock_server"
+server_path = "./bedrock_server"
 url = ""
 filepath = ""
 
@@ -51,15 +51,18 @@ def copy(ext_dir,copy_dir)
 
 def update(url):
     version = url.split("/")[-1].split(".")[0]
-    filepath = f"../temp/update/{version}"
-    copy_path = f"../temp/update/"
-    copy_file = "./server.properties"
+    filepath = f"./temp/update/{version}"
+    copy_path = f"./temp/update/"
+    copy_file = "./bedrock_server/server.properties"
+    copy_file2 = "./bedrock_server/main.py"
     urllib.request.urlretrieve(url, filepath)
     server_kill("bedrock_server")
     extract_zip(filepath)
     shutil.copy(copy_file, copy_path)
+    shutil.copy(copy_file2, copy_path)
     copy(extract_to_dir, server_path)
     shutil.copy(f"{copy_path}/server.properties", server_path)
+    shutil.copy(f"{copy_path}/main.py", server_path)
 
 
 html = get_content()
