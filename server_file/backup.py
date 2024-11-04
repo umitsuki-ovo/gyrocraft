@@ -20,7 +20,7 @@ def backup_log(terminal):
 def backup():
     server_kill('bedrock_server')
     now_time = datetime.datetime.now()
-    shutil.copytree('./bedrockserver/', f'./temp/{now_time.month}/{now_time}', dirs_exist_ok = True)
+    shutil.copytree('./bedrock_server/', f'./temp/{now_time.month}/{now_time}', dirs_exist_ok = True)
     if os.path.isdir(f'./temp/{now_time.month + 7}') == True:
         shutil.rmtree(f'./temp/{now_time.month + 7}')
 
