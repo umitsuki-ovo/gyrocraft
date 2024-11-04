@@ -5,13 +5,13 @@ import time
 import os
 
 def main():
-    subprocess.run("python3 ./update.py", shell = True, stdout = subprocess.PIPE, stderr = subprocess.STDOUT)
+    subprocess.run("python3 ../update.py", shell = True, stdout = subprocess.PIPE, stderr = subprocess.STDOUT)
     time.sleep(1)
     if datetime.today().weekday() == 2:
         backup()
 
 def backup():
-    subprocess.run("python3 ./backup.py", shell = True, stdout = subprocess.PIPE, stderr = subprocess.STDOUT)
+    subprocess.run("python3 ../backup.py", shell = True, stdout = subprocess.PIPE, stderr = subprocess.STDOUT)
     time.sleep(1)
     os.chdir(os.path.join(os.path.dirname(os.path.abspath(__file__)), 'bedrock_server'))
     subprocess.Popen('python3 main.py', shell = True, stdout = subprocess.PIPE, stderr = subprocess.STDOUT)
