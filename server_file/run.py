@@ -7,7 +7,7 @@ import os
 def main():
     subprocess.run("python3 ./update.py", shell = True, stdout = subprocess.PIPE, stderr = subprocess.STDOUT)
     time.sleep(1)
-    if today.weekday() == 2:
+    if datetime.today().weekday() == 2:
         backup()
 
 def backup():
